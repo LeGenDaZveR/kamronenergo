@@ -4,7 +4,7 @@ const session = require("express-session");
 
 const connectDB = require("./config/db");
 const Admin = require("./models/Admin");
-const bcrypt = require("bcrypt");
+//const bcrypt = require("bcryptjs");
 
 const app = express();
 
@@ -33,7 +33,7 @@ async function ensureAdmin() {
 
   const exists = await Admin.findOne({ username });
   if (!exists) {
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await bcryptjs.hash(password, 10);
     await Admin.create({ username, passwordHash });
     console.log("✅ Admin created:", username, "password:", password);
   }
