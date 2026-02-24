@@ -102,21 +102,22 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
+// ✅ AVVAL PORTNI OCHAMIZ (Render shuni talab qiladi)
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log("✅ Server port:", port));
+
+// ✅ KEYIN Mongo'ga ulanib ko'ramiz (timeout bilan)
 (async () => {
   try {
     const mongo = process.env.MONGO_URI;
-    if (!mongo) {
-      throw new Error("MONGO_URI env topilmadi. Render -> Environment ga qo'ying.");
-    }
+    if (!mongo) throw new Error("MONGO_URI env topilmadi (Render -> Environment).");
 
     console.log("⏳ MongoDB ga ulanyapman...");
-    await mongoose.connect(mongo);
+    await mongoose.connect(mongo, { serverSelectionTimeoutMS: 15000 });
     console.log("✅ MongoDB connected");
-
-    const port = process.env.PORT || 3000;
-    app.listen(port, () => console.log("✅ Server port:", port));
   } catch (e) {
-    console.error("❌ STARTUP ERROR:", e);
-    process.exit(1);
+    console.error("❌ MongoDB ulanishda xato:", e?.message || e);
   }
 })();
+    
+  
