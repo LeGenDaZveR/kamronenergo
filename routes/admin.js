@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
+const bcryptjs = require("bcryptjs");
 const multer = require("multer");
 
 const Admin = require("../models/Admin");
@@ -21,7 +21,7 @@ router.post("/login", async (req, res) => {
   const admin = await Admin.findOne({ username });
   if (!admin) return res.render("admin/login", { error: "Login yoki parol xato" });
 
-  const ok = await bcrypt.compare(password, admin.passwordHash);
+  const ok = await bcryptjs.compare(password, admin.passwordHash);
   if (!ok) return res.render("admin/login", { error: "Login yoki parol xato" });
 
   req.session.admin = { username: admin.username };
