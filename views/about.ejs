@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= aboutData[lang]?.title || aboutData.uz.title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body style="--page-bg-image: url('<%= bgImage %>');">
+
+<%- include("partials/background") %>
+<%- include("partials/header") %>
+
+<main>
+  <!-- HERO -->
+  <section style="padding:0; max-width:1200px; margin:auto; background: transparent;">
+    <!---<div style="border-radius:10px; overflow:hidden;">
+      <img
+        src="<%= aboutData.heroImage %>"
+        alt="About hero"
+        style="width:100%; height:520px; object-fit:cover; display:block;"
+      >
+    </div>--->
+
+    <!-- TITLE + TEXT -->
+    <div style="background: rgba(255,255,255,0.95); margin-top:20px; padding:25px; border-radius:10px;">
+      <h2 style="margin:0 0 15px 0; color:#111;">
+        <%= aboutData[lang]?.title || aboutData.uz.title %>
+      </h2>
+
+      <p style="margin:0; line-height:1.8; color:#222; white-space:pre-line;">
+        <%= aboutData[lang]?.text || aboutData.uz.text %>
+      </p>
+    </div>
+
+    <!-- STATS -->
+    <div style="margin-top:20px; display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:15px;">
+      <% aboutData.stats.forEach(s => { %>
+        <div style="background: rgba(255,255,255,0.90); border-radius:10px; padding:16px; text-align:center;">
+          <div style="font-size:28px; font-weight:bold; color:#111;"><%= s.value %></div>
+          <div style="margin-top:6px; font-weight:bold; color:#333;">
+            <%= (lang==='uz'? s.uz : lang==='ru'? s.ru : s.en) %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- TEAM -->
+    <div style="margin-top:30px; background: rgba(255,255,255,0.90); padding:20px; border-radius:10px;">
+      <h3 style="margin:0 0 15px 0; color:#111;">
+        <%= lang==='uz' ? "Jamoamiz" : (lang==='ru' ? "Наша команда" : "Our team") %>
+      </h3>
+
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:15px;">
+        <% aboutData.team.forEach(m => { %>
+          <div style="border-radius:10px; overflow:hidden; background:#fff;">
+            <img src="<%= m.photo %>" style="width:100%; height:220px; object-fit:cover; display:block;">
+            <div style="padding:12px;">
+              <div style="font-weight:bold; color:#111;"><%= m.name %></div>
+              <div style="color:#444; margin-top:4px;">
+                <%= (lang==='uz'? m.roleUz : lang==='ru'? m.roleRu : m.roleEn) %>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- GALLERY -->
+    <div style="margin-top:30px; background: rgba(255,255,255,0.90); padding:20px; border-radius:10px;">
+      <h3 style="margin:0 0 15px 0; color:#111;">
+        <%= lang==='uz' ? "Sertifikatlar / Portfolio" : (lang==='ru' ? "Сертификаты / Портфолио" : "Certificates / Portfolio") %>
+      </h3>
+
+      <div class="gallery">
+        <% aboutData.gallery.forEach(img => { %>
+          <div class="gallery-item" onclick="openModal('<%= img %>')">
+            <img src="<%= img %>">
+            <div class="gallery-caption">
+              <%= lang==='uz' ? "Ko‘rish" : (lang==='ru' ? "Смотреть" : "View") %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div style="margin-top:30px; background: rgba(255,255,255,0.90); padding:20px; border-radius:10px;">
+      <h3 style="margin:0 0 10px 0; color:#111;">
+        <%= lang==='uz' ? "Bog‘lanish" : (lang==='ru' ? "Связаться" : "Contact") %>
+      </h3>
+
+      <p style="margin:0 0 12px 0; color:#111;">
+        <b><%= lang==='uz' ? "Telefon:" : (lang==='ru' ? "Телефон:" : "Phone:") %></b>
+        <%= aboutData.contacts.phone %>
+      </p>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="<%= aboutData.contacts.telegram %>" target="_blank"
+           style="padding:10px 14px;border-radius:8px;font-weight:bold;text-decoration:none;background:#0088cc;color:#fff;">
+          Telegram
+        </a>
+
+        <a href="<%= aboutData.contacts.instagram %>" target="_blank"
+           style="padding:10px 14px;border-radius:8px;font-weight:bold;text-decoration:none;background:linear-gradient(45deg,#feda75,#d62976,#962fbf);color:#fff;">
+          Instagram
+        </a>
+      </div>
+
+      <!-- MAP -->
+      <div style="margin-top:18px; border-radius:10px; overflow:hidden;">
+        <iframe
+          src="<%= aboutData.contacts.mapEmbed %>"
+          width="100%" height="320" style="border:0;"
+          allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<%- include("partials/footer") %>
+
+<!-- Modal -->
+<div id="imgModal" class="modal" onclick="closeModal(event)">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal(event)">&times;</span>
+    <img id="modalImg" src="" style="width:100%;border-radius:10px;">
+  </div>
+</div>
+
+<script>
+function openModal(src){
+  document.getElementById("modalImg").src = src;
+  document.getElementById("imgModal").style.display = "block";
+}
+function closeModal(e){
+  if(e.target.id === "imgModal" || e.target.classList.contains("close")){
+    document.getElementById("imgModal").style.display = "none";
+  }
+}
+</script>
+
+</body>
+</html>

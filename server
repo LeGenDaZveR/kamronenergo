@@ -1,0 +1,199 @@
+const express = require("express");
+const fs = require("fs");
+const multer = require("multer");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const app = express();
+const PORT = 3000;
+
+app.use(cors());
+app.use(bodyParser.json());
+app.use(express.static("public"));
+app.use("/admin", express.static("admin"));
+app.use("/uploads", express.static("uploads"));
+
+if (!fs.existsSync("uploads")) fs.mkdirSync("uploads");
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) =>
+    cb(null, Date.now() + "-" + file.originalname)
+});
+const upload = multer({ storage });
+
+function readData() {
+  return JSON.parse(fs.readFileSync("data.json"));
+}
+
+function writeData(data) {
+  fs.writeFileSync("data.json", JSON.stringify(data, null, 2));
+}
+
+/* ---------------- PAGE CRUD ---------------- */
+
+app.get("/api/page/:name", (req, res) => {
+  const data = readData();
+  res.json({ content: data.pages[req.params.name] || "" });
+});
+
+app.post("/api/page/:name", (req, res) => {
+  const data = readData();
+  data.pages[req.params.name] = req.body.content;
+  writeData(data);
+  res.json({ message: "Saved" });
+});
+
+/* ---------------- PHOTO CRUD ---------------- */
+
+app.post("/api/upload", upload.single("photo"), (req, res) => {
+  const data = readData();
+  data.photos.unshift({
+    id: Date.now(),
+    filename: req.file.filename,
+    description: req.body.description
+  });
+  writeData(data);
+  res.json({ message: "Uploaded" });
+});
+
+app.get("/api/photos", (req, res) => {
+  res.json(readData().photos);
+});
+
+app.delete("/api/photo/:id", (req, res) => {
+  const data = readData();
+  data.photos = data.photos.filter(p => p.id != req.params.id);
+  writeData(data);
+  res.json({ message: "Deleted" });
+});
+
+/* ---------------- NEWS CRUD ---------------- */
+
+app.post("/api/news", upload.single("image"), (req, res) => {
+  const data = readData();
+  data.news.unshift({
+    id: Date.now(),
+    title: req.body.title,
+    content: req.body.content,
+    image: req.file ? req.file.filename : ""
+  });
+  writeData(data);
+  res.json({ message: "News added" });
+});
+
+app.get("/api/news", (req, res) => {
+  res.json(readData().news);
+});
+
+app.delete("/api/news/:id", (req, res) => {
+  const data = readData();
+  data.news = data.news.filter(n => n.id != req.params.id);
+  writeData(data);
+  res.json({ message: "Deleted" });
+});
+
+app.listen(PORT, () =>
+  console.log("Server running: http://localhost:" + PORT)
+);
+
+// UPDATE NEWS
+app.put("/api/news/:id", upload.single("image"), (req, res) => {
+  const data = readData();
+  const newsItem = data.news.find(n => n.id == req.params.id);
+
+  if (!newsItem) return res.status(404).json({ message: "Not found" });
+
+  newsItem.title = req.body.title;
+  newsItem.content = req.body.content;
+
+  if (req.file) {
+    newsItem.image = req.file.filename;
+  }
+
+  writeData(data);
+  res.json({ message: "Updated" });
+});
+
+// server.js
+const express = require("express");
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
+
+//const app = express();
+//const PORT = 3000;
+
+//const upload = multer({ dest: "uploads/" });
+
+app.use(express.static("public"));
+app.use(express.json());
+
+const DATA_FILE = "data.json";
+
+// Yordamchi funksiyalar
+function readData() {
+  if (!fs.existsSync(DATA_FILE)) return { news: [] };
+  return JSON.parse(fs.readFileSync(DATA_FILE));
+}
+
+function writeData(data) {
+  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+}
+
+// YANGILIKLAR RO'YXATI OQISH
+app.get("/api/news", (req, res) => {
+  const data = readData();
+  res.json(data.news);
+});
+
+// YANGILIK QO'SHISH
+app.post("/api/news", upload.single("image"), (req, res) => {
+  const data = readData();
+
+  const newId = data.news.length ? data.news[data.news.length - 1].id + 1 : 1;
+  const newsItem = {
+    id: newId,
+    title: req.body.title,
+    content: req.body.content,
+    image: req.file ? req.file.filename : null,
+  };
+
+  data.news.push(newsItem);
+  writeData(data);
+
+  res.json({ message: "Yangilik qo'shildi", newsItem });
+});
+
+// YANGILIKNI TAHRIRLASH
+app.put("/api/news/:id", upload.single("image"), (req, res) => {
+  const data = readData();
+  const id = parseInt(req.params.id);
+  const item = data.news.find(n => n.id === id);
+
+  if (!item) return res.status(404).json({ message: "Yangilik topilmadi" });
+
+  item.title = req.body.title;
+  item.content = req.body.content;
+
+  if (req.file) {
+    // Eski rasmni o'chirish (xohlasangiz qo'shishingiz mumkin)
+    item.image = req.file.filename;
+  }
+
+  writeData(data);
+  res.json({ message: "Yangilik yangilandi", item });
+});
+
+// YANGILIK O'CHIRISH
+app.delete("/api/news/:id", (req, res) => {
+  const data = readData();
+  const id = parseInt(req.params.id);
+  data.news = data.news.filter(n => n.id !== id);
+  writeData(data);
+  res.json({ message: "Yangilik o'chirildi" });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

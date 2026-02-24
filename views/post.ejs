@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <meta charset="UTF-8">
+  <title>
+    <%= post.translations[lang]?.title || post.translations.uz.title %>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<%- include("partials/header") %>
+
+<main>
+  <section style="background:#118af5;">
+    <div style="background:#fff; padding:20px; border-radius:10px; max-width:1000px; margin:auto;">
+
+      <h2>
+        <%= post.translations[lang]?.title || post.translations.uz.title %>
+      </h2>
+
+      <% if(post.coverImage){ %>
+        <img src="/uploads/<%= post.coverImage %>" style="margin-top:15px; border-radius:10px;">
+      <% } %>
+
+      <p style="margin-top:20px; line-height:1.7;">
+        <%= post.translations[lang]?.content || post.translations.uz.content %>
+      </p>
+
+      <% if(post.gallery && post.gallery.length > 0){ %>
+        <h3 style="margin-top:30px;">Galereya</h3>
+
+        <div class="gallery">
+          <% post.gallery.forEach(img => { %>
+            <div class="gallery-item" onclick="openModal('/uploads/<%= img %>')">
+              <img src="/uploads/<%= img %>">
+              <div class="gallery-caption"><%= t.more %></div>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+
+    </div>
+  </section>
+</main>
+
+<%- include("partials/footer") %>
+
+<!-- Modal -->
+<div id="imgModal" class="modal" onclick="closeModal(event)">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal(event)">&times;</span>
+    <img id="modalImg" src="" style="width:100%;border-radius:10px;">
+  </div>
+</div>
+
+<script>
+function openModal(src){
+  document.getElementById("modalImg").src = src;
+  document.getElementById("imgModal").style.display = "block";
+}
+function closeModal(e){
+  if(e.target.id === "imgModal" || e.target.classList.contains("close")){
+    document.getElementById("imgModal").style.display = "none";
+  }
+}
+</script>
+
+</body>
+</html>

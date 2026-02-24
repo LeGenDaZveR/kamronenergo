@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Yangi post</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <img src="/logo.png" class="logo">
+  <nav>
+    <a href="/admin">← Dashboard</a>
+    <a href="/">Sayt</a>
+  </nav>
+</header>
+
+<section class="news-section">
+  <h2>Yangi post qo‘shish (faqat UZ)</h2>
+
+  <div style="max-width:750px;margin:0 auto;background:#fff;padding:20px;border-radius:10px;">
+    <form action="/admin/create" method="POST" enctype="multipart/form-data">
+
+      <input style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;"
+             type="text" name="title" placeholder="Sarlavha (UZ)" required>
+
+      <textarea style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;min-height:160px;margin-bottom:10px;"
+                name="content" placeholder="Matn (UZ)" required></textarea>
+
+      <select style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;"
+              name="category" required>
+        <option value="news">Yangiliklar</option>
+        <option value="services">Xizmatlar</option>
+        <option value="about">Biz haqimizda</option>
+      </select>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-weight:bold;">Asosiy rasm (cover):</label>
+        <input type="file" name="coverImage" accept="image/*">
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-weight:bold;">Galereya (ko‘p rasm):</label>
+        <input type="file" name="gallery" accept="image/*" multiple>
+      </div>
+
+      <button style="padding:10px 16px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;background:#118af5;color:#fff;"
+              type="submit">
+        Saqlash
+      </button>
+
+      <p style="margin-top:10px;color:#555;">
+        * Post UZ’da kiritiladi, RU/EN avtomatik tarjima bo‘ladi.
+      </p>
+    </form>
+  </div>
+</section>
+
+</body>
+</html>

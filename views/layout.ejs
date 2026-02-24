@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+    <meta charset="UTF-8">
+    <title>Kamron Energo Servis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+    <img src="/logo.png" class="preloader-logo">
+</div>
+
+<header>
+    <img src="/logo.png" class="logo">
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/category/news">News</a>
+        <a href="/category/services">Services</a>
+        <a href="/category/about">About</a>
+
+        <!-- Language -->
+        <select onchange="changeLang(this.value)">
+            <option value="uz" <%= lang==='uz'?'selected':'' %>>UZ</option>
+            <option value="ru" <%= lang==='ru'?'selected':'' %>>RU</option>
+            <option value="en" <%= lang==='en'?'selected':'' %>>EN</option>
+        </select>
+    </nav>
+</header>
+
+
+<main>
+
+<section class="news-section">
+    <h2>Yangiliklar</h2>
+
+    <div class="news-container">
+
+        <% posts.forEach(post => { %>
+
+            <div class="news-card">
+
+                <% if(post.image){ %>
+                    <img src="/uploads/<%= post.image %>">
+                <% } %>
+
+                <div class="news-content">
+                    <h3>
+                        <%= post.translations[lang]?.title || post.translations['uz'].title %>
+                    </h3>
+
+                    <p>
+                        <%= post.translations[lang]?.content || post.translations['uz'].content %>
+                    </p>
+
+                    <a href="/category/<%= post.category %>">
+                        Batafsil →
+                    </a>
+                </div>
+
+            </div>
+
+        <% }) %>
+
+    </div>
+</section>
+
+</main>
+
+
+<footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <h3>Kamron Energo Servis</h3>
+      <p>Professional elektr xizmatlari</p>
+      <p>Yuqori darajadagi Dasturiy ta'minot</p>
+      <p>Malakali muhandis elektronshiklar</p>
+    </div>
+
+    <div class="footer-middle">
+      <h3>Bo'limlar</h3>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/category/services">Services</a></li>
+        <li><a href="/category/news">News</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-right">
+      <h3>Aloqa</h3>
+      <p>+998 90 000 00 00</p>
+      <p>info@kamronenergo.uz</p>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+function changeLang(lang){
+    window.location.href = "/lang/" + lang;
+}
+
+// Preloader fade
+window.addEventListener("load", function(){
+    const preloader = document.getElementById("preloader");
+    preloader.style.opacity = "0";
+    setTimeout(()=> preloader.style.display="none", 800);
+});
+</script>
+
+</body>
+</html>

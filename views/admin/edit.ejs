@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit post</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header>
+  <img src="/logo.png" class="logo">
+  <nav>
+    <a href="/admin">← Dashboard</a>
+    <a href="/post/<%= post._id %>">Ko‘rish</a>
+  </nav>
+</header>
+
+<section class="news-section">
+  <h2>Post tahrirlash</h2>
+
+  <div style="max-width:750px;margin:0 auto;background:#fff;padding:20px;border-radius:10px;">
+    <form action="/admin/edit/<%= post._id %>" method="POST" enctype="multipart/form-data">
+
+      <input style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;"
+             type="text" name="title" value="<%= post.translations.uz.title %>" required>
+
+      <textarea style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;min-height:160px;margin-bottom:10px;"
+                name="content" required><%= post.translations.uz.content %></textarea>
+
+      <select style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;"
+              name="category" required>
+        <option value="news" <%= post.category==='news'?'selected':'' %>>Yangiliklar</option>
+        <option value="services" <%= post.category==='services'?'selected':'' %>>Xizmatlar</option>
+        <option value="about" <%= post.category==='about'?'selected':'' %>>Biz haqimizda</option>
+      </select>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-weight:bold;">Cover yangilash (ixtiyoriy):</label><br>
+        <% if(post.coverImage){ %>
+          <img src="/uploads/<%= post.coverImage %>" style="max-width:200px;border-radius:10px;margin:10px 0;">
+        <% } %>
+        <input type="file" name="coverImage" accept="image/*">
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-weight:bold;">Yangi galereya rasmlar (ixtiyoriy):</label><br>
+        <input type="file" name="gallery" accept="image/*" multiple>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-weight:bold;">
+          Eski galereyani saqlab qolish:
+          <input type="checkbox" name="keepOldGallery" checked>
+        </label>
+      </div>
+
+      <button style="padding:10px 16px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;background:#118af5;color:#fff;"
+              type="submit">
+        Saqlash (RU/EN qayta tarjima bo‘ladi)
+      </button>
+    </form>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+  <meta charset="UTF-8">
+  <title><%= category %> - Kamron Energo Servis</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<%- include("partials/header") %>
+
+<main>
+  <section class="news-section">
+
+    <!---<h2><%= t[category] || category.toUpperCase() %></h2>--->
+
+    <div class="news-container">
+
+      <% if(posts.length === 0){ %>
+        <p style="color:#fff;font-weight:bold;">Post mavjud emas</p>
+      <% } %>
+
+      <% posts.forEach(post => { %>
+        <div class="news-card">
+
+          <% if(post.coverImage){ %>
+            <img src="/uploads/<%= post.coverImage %>" alt="">
+          <% } %>
+
+          <div class="news-content">
+            <h3>
+              <%= post.translations[lang]?.title || post.translations.uz.title %>
+            </h3>
+
+            <p>
+              <%= (post.translations[lang]?.content || post.translations.uz.content).substring(0,150) %>...
+            </p>
+
+            <a href="/post/<%= post._id %>?from=<%= category %>">
+              <%= t.more %> →
+            </a>
+          </div>
+
+        </div>
+      <% }) %>
+
+    </div>
+  </section>
+</main>
+
+<%- include("partials/footer") %>
+
+</body>
+</html>

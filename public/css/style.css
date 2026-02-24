@@ -1,0 +1,339 @@
+body, html {
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+    background: url("/bg.jpg") no-repeat center center;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    
+    
+}
+
+
+h1,h2,h3{font-weight:bold;}
+a{text-decoration:none;color:inherit;}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:5px 5px;
+  /*background:#f8f8f8;
+ /* background: url("/baner.png") no-repeat center center;
+  background-size: 100% 180%;*/
+  /*box-shadow:0 2px 5px rgba(0,0,0,0.1);*/
+  
+}
+  
+header .logo{width:100px;}
+header nav a{margin:0 5px;font-weight:bold;}
+header nav select{padding:5px 5px;}
+
+section{padding:50px 30px;max-width:1200px;margin:auto;}
+section img{display:block;margin-top:15px;border-radius:5px;max-width:100%;}
+
+#preloader{position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  /*background:#118af5;*/
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  transition:opacity 15s;}
+.preloader-logo{
+  width: 300px;
+  animation:fadeInOut 500ms ease-in-out;}
+@keyframes fadeInOut{0%{opacity:0;
+  transform:scale(.5);}50%
+  {opacity:1;transform:scale(1);}100%
+  {opacity:0;transform:scale(.5);}}
+
+@media(max-width:768px){
+    header{flex-direction:column;}
+    header nav a{margin:5px 0;}
+}
+
+/*footer {
+    background-color: #222; /* Orqa fon rangi */
+   /* color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+    font-weight: bold; /* Yozuvlarni jirniy qilish */
+    /*font-family: Arial, sans-serif;
+    margin-top: 40px;
+}*/
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: 0.4s;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.gallery-caption {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  transform: translateY(100%);
+  transition: 0.4s;
+}
+
+.gallery-item:hover .gallery-caption {
+  transform: translateY(0);
+}
+
+/* Footer umumiy dizayni */
+footer {
+ /*background: #3d3c3c;*/
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  /*color: #ffffff;*/
+  text-align: center;
+  padding: 8px 5px;
+  font-weight: bold;
+  margin-top: 300px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.footer-left, .footer-middle, .footer-right {
+  flex: 1;
+  min-width: 250px;
+}
+
+footer h3 {
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+footer p, footer ul {
+  margin: 5px 0;
+  font-size: 1.2rem;
+}
+
+footer ul {
+  padding: 0;
+  list-style: none;
+}
+
+footer ul li {
+  margin-bottom: 5px;
+}
+
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #dcdcdc;
+  text-decoration: underline;
+}
+
+/* Mobilga moslashuv (responsive) */
+@media screen and (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-left, .footer-middle, .footer-right {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .footer-right ul {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+.news-section {
+  padding: 50px 20px;
+  background: transparent;
+  text-align: center;
+}
+
+.news-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.news-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.news-card {
+  background: #fdfdfd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.news-card img {
+  width: 290px;
+  height: 180px;
+  object-fit: cover;
+}
+
+.news-card .news-content {
+  padding: 15px;
+  text-align: left;
+}
+
+.news-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.news-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.news-card a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #0077ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.news-card a:hover {
+  text-decoration: underline;
+}
+
+/* Modal background */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+}
+
+/* Modal content */
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  text-align: left;
+}
+
+/* Close button */
+.close {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+main > section {
+    background: transparent !important;
+}
+
+
+.social-links {
+  display: flex;
+  gap: 20px;
+  justify-content:flex-end;
+  /*margin-right: 40px;*/
+ 
+}
+
+.social-icon {
+  padding: 10px 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.social-icon.telegram {
+  background: #0088cc;
+}
+
+.social-icon.instagram {
+  background: linear-gradient(45deg, #feda75, #d62976, #962fbf);
+}
+
+.social-icon:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+} 

@@ -1,0 +1,44 @@
+<footer>
+  <head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></head>
+  <div class="footer-container">
+
+    <div class="footer-left">
+      <h3><%= t.footerTitle %></h3>
+      <p><%= t.footerDesc1 %></p>
+      <p><%= t.footerDesc2 %></p>
+    </div>
+
+    <div class="footer-middle">
+      <h3><%= t.sections %></h3>
+      <ul>
+        <li><a href="/"><%= t.home %></a></li>
+        <li><a href="/category/news"><%= t.news %></a></li>
+        <li><a href="/category/services"><%= t.services %></a></li>
+        <li><a href="/category/about"><%= t.about %></a></li>
+      </ul>
+    </div>
+
+    <div class="footer-right">
+      <h3><%= t.contactTitle %></h3>
+      <p>+998 93 442 00 50</p>
+      <p>kamron@inbox.bk</p>
+      
+      <!--<a href="https://t.me/YOUR_USERNAME" target="_blank" class="social-icon telegram">
+        <i class="fab fa-telegram"></i>
+      </a>
+
+      <a href="https://instagram.com/YOUR_USERNAME" target="_blank" class="social-icon instagram">
+        <i class="fab fa-instagram"></i>
+      </a>-->
+    </div>
+
+    <div class="social-links" style="margin-top:10px;">
+     
+    </div>
+
+  </div>
+
+  <div style="margin-top:15px;">
+    © 2017-<%= new Date().getFullYear() %> <%= t.footerTitle %>. <%= t.rights %>
+  </div>
+</footer>
