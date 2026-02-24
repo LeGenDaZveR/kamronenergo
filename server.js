@@ -4,7 +4,7 @@ const session = require("express-session");
 
 const connectDB = require("./config/db");
 const Admin = require("./models/Admin");
-//const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 const app = express();
 
