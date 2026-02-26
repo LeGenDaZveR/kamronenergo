@@ -216,7 +216,7 @@ footer {
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
     text-align: justify;
-    white-space: pre-line;
+    /*white-space: pre-line;*/
 }
 
 .news-card {
