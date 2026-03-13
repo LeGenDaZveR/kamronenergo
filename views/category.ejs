@@ -33,8 +33,11 @@
               <%= post.translations[lang]?.title || post.translations.uz.title %>
             </h3>
 
-            <p>
+            /*<p>
               <%= (post.translations[lang]?.content || post.translations.uz.content).substring(0,150) %>...
+            </p>*/
+            <p class="post-content">
+              <%= post.translations[lang]?.content || post.translations.uz.content %>
             </p>
 
             <a href="/post/<%= post._id %>?from=<%= category %>">
