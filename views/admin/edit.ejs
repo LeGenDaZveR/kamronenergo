@@ -26,7 +26,7 @@
              type="text" name="title" value="<%= post.translations.uz.title %>" required>
 
       <textarea style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;min-height:160px;margin-bottom:10px;"
-                name="content" required><%= post.translations.uz.content %></textarea>
+                name="content" rows="15" maxlength="10000" required><%= post.translations.uz.content %></textarea>
 
       <select style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;margin-bottom:10px;"
               name="category" required>
