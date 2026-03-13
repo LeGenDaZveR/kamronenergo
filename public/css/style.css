@@ -341,7 +341,7 @@ main > section {
   transform: scale(1.05);
 } 
 
-.post-content{
+.news-content{
   white-space: pre-line;
   text-align: justify;
   line-height: 1.8;
