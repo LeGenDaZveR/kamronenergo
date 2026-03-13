@@ -1,15 +1,23 @@
-/*const axios = require("axios");
+const axios = require("axios");
 
 async function libreTranslate(text, target) {
   const res = await axios.post(
     "https://libretranslate.de/translate",
-    { q: text, source: "uz", target, format: "text" },
-    { headers: { "Content-Type": "application/json" }, timeout: 15000 }
+    {
+      q: text,
+      source: "uz",
+      target,
+      format: "text"
+    },
+    {
+      headers: { "Content-Type": "application/json" },
+      timeout: 15000
+    }
   );
-  return res?.data?.translatedText;
+
+  return res?.data?.translatedText || "";
 }
 
-// MyMemory (public, ba’zan sekin, lekin backup sifatida zo‘r)
 async function myMemoryTranslate(text, target) {
   const url =
     "https://api.mymemory.translated.net/get?q=" +
@@ -18,57 +26,68 @@ async function myMemoryTranslate(text, target) {
     encodeURIComponent(target);
 
   const res = await axios.get(url, { timeout: 15000 });
-  return res?.data?.responseData?.translatedText;
+  return res?.data?.responseData?.translatedText || "";
+}
+
+function splitText(text, maxLength = 400) {
+  const paragraphs = text.split("\n");
+  const chunks = [];
+  let current = "";
+
+  for (const p of paragraphs) {
+    const next = current ? current + "\n" + p : p;
+
+    if (next.length > maxLength) {
+      if (current.trim()) chunks.push(current.trim());
+
+      if (p.length > maxLength) {
+        for (let i = 0; i < p.length; i += maxLength) {
+          chunks.push(p.slice(i, i + maxLength));
+        }
+        current = "";
+      } else {
+        current = p;
+      }
+    } else {
+      current = next;
+    }
+  }
+
+  if (current.trim()) chunks.push(current.trim());
+  return chunks;
+}
+
+async function translateChunk(text, target) {
+  try {
+    const t = await libreTranslate(text, target);
+    if (t && t.trim()) return t;
+  } catch (e) {}
+
+  try {
+    const t = await myMemoryTranslate(text, target);
+    if (t && t.trim()) return t;
+  } catch (e) {}
+
+  return text;
 }
 
 async function translateSafe(text, target) {
   try {
     if (!text || !text.trim()) return "";
-    let t = "";
 
-    try {
-      t = await libreTranslate(text, target);
-      if (t && t.trim()) return t;
-    } catch (_) {}
+    const chunks = splitText(text, 400);
+    const translatedChunks = [];
 
-    try {
-      t = await myMemoryTranslate(text, target);
-      if (t && t.trim()) return t;
-    } catch (_) {}
+    for (const chunk of chunks) {
+      const translated = await translateChunk(chunk, target);
+      translatedChunks.push(translated);
+    }
 
-    return text; // fallback
-  } catch {
+    return translatedChunks.join("\n");
+  } catch (err) {
+    console.error("Tarjima xatosi:", err.message);
     return text;
   }
 }
 
-module.exports = translateSafe;*/
-
-const axios = require("axios");
-
-async function translate(text, target) {
-  try {
-    if (!text) return "";
-
-    const response = await axios.post(
-      "https://libretranslate.de/translate",
-      {
-        q: text,
-        source: "uz",
-        target: target,
-        format: "text"
-      },
-      {
-        headers: { "Content-Type": "application/json" }
-      }
-    );
-
-    return response.data.translatedText;
-
-  } catch (err) {
-    console.error("Tarjima xatosi:", err.message);
-    return text; // agar xato bo'lsa asl matn qaytadi
-  }
-}
-
-module.exports = translate;
+module.exports = translateSafe;
