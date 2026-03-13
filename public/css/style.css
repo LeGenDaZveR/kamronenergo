@@ -240,7 +240,8 @@ footer {
 
 .news-card .news-content {
   padding: 15px;
-  text-align: left;
+   white-space: pre-line;
+  text-align: justify;
 }
 
 .news-card h3 {
