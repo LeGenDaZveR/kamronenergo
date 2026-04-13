@@ -43,7 +43,7 @@ async function ensureAdmin() {
   await connectDB(process.env.MONGO_URI);
   await ensureAdmin();
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 10000;
   app.listen(port, () => console.log("Server " + port + " portda"));
 })();*/
 
